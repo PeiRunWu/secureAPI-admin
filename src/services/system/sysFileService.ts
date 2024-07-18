@@ -6,7 +6,7 @@ import {request} from '@umijs/max';
  */
 export async function deleteFile(params: { path: string }) {
     return request<BaseResponse<string>>(
-        '/api/secure-system/sysFile/deleteFile/',
+        '/api/secure-system/sysFile/deleteFile',
         {
             method: 'POST',
             data: params

@@ -81,6 +81,7 @@ const SysRole: FC = () => {
                     return {
                         data: data?.records || [],
                         success: true,
+                        total: data.total
                     };
                 }}
                 toolBarRender={() => [

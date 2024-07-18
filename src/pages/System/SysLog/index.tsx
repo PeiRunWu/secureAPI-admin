@@ -7,9 +7,14 @@ import {
   ProTable,
 } from '@ant-design/pro-components';
 import { FC, useRef } from 'react';
+import SysLogButtons from './components/SysLogButtons';
 
 const SysLog: FC = () => {
   const actionRef = useRef<ActionType>();
+
+  const handleFetchList = () => {
+    actionRef?.current?.reload();
+  };
 
   const columns: ProColumns<SysLogEntity>[] = [
     {
@@ -67,6 +72,18 @@ const SysLog: FC = () => {
       dataIndex: 'createTime',
       valueType: 'dateTime',
     },
+    {
+      title: '操作',
+      valueType: 'option',
+      key: 'option',
+      render: (_, record) => [
+        <SysLogButtons
+          key={'button'}
+          record={record}
+          handleRefresh={handleFetchList}
+        />,
+      ],
+    },
   ];
   return (
     <PageContainer>
@@ -81,6 +98,7 @@ const SysLog: FC = () => {
           return {
             data: data.records || [],
             success: true,
+            total: data.total
           };
         }}
       />

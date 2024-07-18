@@ -6,6 +6,7 @@ import {UploadChangeParam} from 'antd/es/upload';
 import React, {FC, useState} from 'react';
 import {deleteFile} from "@/services/system/sysFileService";
 import {getRoleInfoExcludeHidden} from "@/services/system/sysRoleService";
+import { getWithExpiry } from '@/utils/localStorage';
 
 const phoneValidator: Rule = {
     pattern: /0?(13|14|15|17|18|19)[0-9]{9}/,
@@ -167,11 +168,11 @@ const EditSysUserPage: FC<Props> = React.memo(({record}) => {
                 name="file"
                 label="头像"
                 max={1}
-                action={'/api/system/sysFile/uploadFile?directory=secure-system'}
+                action={'/api/secure-system/sysFile/uploadFile?directory=secure-system'}
                 fieldProps={{
                     name: 'file',
                     headers: {
-                        token: "1111"
+                        Authorization: `Bearer ${getWithExpiry('secure-admin')}`
                     },
                     fileList: fileList,
                     listType: 'picture-card',
