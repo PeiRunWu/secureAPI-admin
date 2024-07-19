@@ -46,6 +46,14 @@ export default [
     component: './System/SysLog',
   },
   {
+    path: '/toolbox',
+    redirect: '/toolbox/dataSource/list',
+  },
+  {
+    path: '/toolbox/dataSource/list',
+    component: './Toolbox/DataSource',
+  },
+  {
     path: '*',
     layout: false,
     component: './404',
