@@ -71,11 +71,11 @@ const EditDataSourcePage: FC<Props> = React.memo(({ record }) => {
         width={'sm'}
         label="请选择数据源驱动"
         valueEnum={{
-          0: 'Mysql',
+         0: 'Mysql',
         }}
         placeholder="请选择数据源驱动"
         rules={[{ required: true, message: '请选择数据源驱动' }]}
-        initialValue={record?.driverType}
+        initialValue={record?.driverType.toString()}
       />
     </>
   );
