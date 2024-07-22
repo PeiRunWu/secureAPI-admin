@@ -1,11 +1,12 @@
 import { DataSourceVO } from '@/repository/toolbox/dataSource';
 import {
   deleteDataSourceInfo,
+  testConnection,
   updateDataSourceInfo,
 } from '@/services/toolbox/dataSourceSerivce';
-import { ModalForm } from '@ant-design/pro-components';
-import { Popconfirm, Space } from 'antd';
-import React, { FC } from 'react';
+import { ModalForm, ProFormInstance } from '@ant-design/pro-components';
+import { Button, Popconfirm, Space, message } from 'antd';
+import React, { FC, useRef } from 'react';
 import EditDataSourcePage from './EditDataSourcePage';
 
 interface Props {
@@ -15,10 +16,20 @@ interface Props {
 
 const DataSourceActionButtons: FC<Props> = React.memo(
   ({ record, handleRefresh }) => {
+    const formRef = useRef<ProFormInstance>();
+
     const handleDelete = async () => {
       const response = await deleteDataSourceInfo(record.id);
       if (response.code === 200) {
         handleRefresh();
+      }
+    };
+
+    const test = async () => {
+      const value = formRef.current?.getFieldsFormatValue?.();
+      const resonse = await testConnection(value);
+      if (resonse.code === 200) {
+        message.success('测试连接成功');
       }
     };
 
@@ -30,7 +41,23 @@ const DataSourceActionButtons: FC<Props> = React.memo(
             destroyOnClose: true,
           }}
           width={500}
+          formRef={formRef}
           trigger={<a>编辑</a>}
+          submitter={{
+            resetButtonProps: {
+              style: {
+                display: 'none',
+              },
+            },
+            render: (props, defaultDoms) => {
+              return [
+                ...defaultDoms,
+                <Button key="test" onClick={test}>
+                  测试连接
+                </Button>,
+              ];
+            },
+          }}
           onFinish={async (values) => {
             const data = {
               ...values,
